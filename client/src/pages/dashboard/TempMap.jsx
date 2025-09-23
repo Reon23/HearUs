@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import locationIcon from "../../../public/Location.svg"; // import the svg as an asset
+import locationIcon from "../../../public/location.svg"; // import the svg as an asset
 import FloatingButton from "@/components/FloatingButton";
 import FloatingExit from "../FloatingExit";
 
@@ -8,7 +8,7 @@ const TempMap = () => {
   const mapRef = useRef(null);
   const { state } = useLocation();
   const complaint = state?.complaint;
-  const AZURE_MAPS_API =import.meta.env.VITE_AZURE_API;
+  const AZURE_MAPS_API = import.meta.env.VITE_AZURE_API;
 
   useEffect(() => {
     if (!complaint?.geotag) return;
@@ -43,13 +43,13 @@ const TempMap = () => {
           // Create custom marker with title + SVG icon
           const markerDiv = document.createElement("div");
           markerDiv.innerHTML = `
-            <div style="
+<div style="
               display: flex;
               flex-direction: column;
               align-items: center;
               text-align: center;
             ">
-              <span style="
+  <span style="
                 background: white;
                 padding: 2px 6px;
                 border-radius: 4px;
@@ -58,11 +58,11 @@ const TempMap = () => {
                 box-shadow: 0 2px 6px rgba(0,0,0,0.3);
                 margin-bottom: 4px;
               ">
-                ${complaint.title}
-              </span>
-              <img src="${locationIcon}" alt="marker" style="width:24px;height:24px;" />
-            </div>
-          `;
+    ${complaint.title}
+  </span>
+  <img src="${locationIcon}" alt="marker" style="width:24px;height:24px;" />
+</div>
+`;
 
           const pin = new window.atlas.HtmlMarker({
             position: [complaint.geotag.lng, complaint.geotag.lat],
@@ -80,19 +80,9 @@ const TempMap = () => {
 
   return (
     <>
-     <div
-      ref={mapRef}
-      style={{
-          width: "100%",
-          height: "100vh",
-          borderRadius: "8px",
-          overflow: "hidden",
-        }}
-        />
-       
-       <FloatingExit/>        </>
-        
-   
+      <div ref={mapRef} style={{ width: "100%", height: "100vh", borderRadius: "8px", overflow: "hidden", }} />
+      <FloatingExit />{" "}
+    </>
   );
 };
 
