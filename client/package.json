@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.12.2",
     "azure-maps-control": "^3.6.1",
     "mapbox-gl": "^3.15.0",
     "olamaps-web-sdk": "^1.1.4",
