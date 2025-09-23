@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import FileComplaint from "./pages/FileComplaint";
 import MyMap from "./pages/Map";
+import CameraPage from "./components/ui/CameraPage";
 
 // Inner component where hooks can be used
 function AppWrapper() {
@@ -54,6 +55,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/camera" element={<CameraPage/>}/>
         {/* <Route path="/complaint" element={<FileComplaint />} /> */}
 
         {/* Dashboard layout route */}

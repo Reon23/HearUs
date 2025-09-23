@@ -6,7 +6,7 @@ const FloatingButton = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/complaints");
+    navigate("/camera"); // navigate to camera page
   };
 
   return (
