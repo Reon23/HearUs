@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
+import { ServerContext } from "../context/ServerContext";
 
 function Login() {
+  const { account, login } = useContext(ServerContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -16,25 +18,12 @@ function Login() {
       return;
     }
 
-    try {
-      // Replace URL with your backend login endpoint
-      const response = await axios.post("http://localhost:3000/api/login", {
-        email,
-        password,
-      });
-
-      if (response.data.success) {
-        alert("Login successful!");
-        // Optionally store token in localStorage
-        navigate("/dashboard"); // redirect to dashboard
-      } else {
-        alert(response.data.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred while logging in");
-    }
+    await login({ email, password });
   };
+
+  useEffect(() => {
+    if (account) navigate("/");
+  }, [account]);
 
   return (
     <div className="login-container">
@@ -43,14 +32,21 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Email</label>
-            <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div className="input-group">
             <label>Password</label>
-            <input type="password" placeholder="Enter your password" value={password} onChange={(e) =>
-              setPassword(e.target.value)}
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 

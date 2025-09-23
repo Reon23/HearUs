@@ -19,8 +19,19 @@ export const ServerProvider = ({ children }) => {
       .catch((err) => console.error(err));
   };
 
+  const login = (user) => {
+    console.log(user);
+    axios
+      .post("http://localhost:3000/api/login", user)
+      .then((res) => {
+        console.log(res.data);
+        setAccount(res.data);
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
-    <ServerContext.Provider value={{ register, account }}>
+    <ServerContext.Provider value={{ register, login, account }}>
       {children}
     </ServerContext.Provider>
   );
