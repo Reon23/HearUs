@@ -8,11 +8,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardLayout from "@/layouts/DashboardLayout"
 import DashboardHome from "@/pages/dashboard/Home"
 import { useState } from "react";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import FileComplaint from "./pages/FileComplaint";
+import MyMap from "./pages/Map";
 
 // Inner component where hooks can be used
 function AppWrapper() {
@@ -60,7 +60,7 @@ function App() {
         {isAuthenticated && 
           <Route path="/" element={<DashboardLayout />}>
             {/* Nested routes render inside <Outlet /> */}
-            <Route index element={<Map />} />
+            <Route index element={<MyMap />} />
             <Route path="dashboard" element={<DashboardHome />} />
             <Route path="complaints" element={<FileComplaint />} />
             {/* <Route path="team" element={<Team />} /> */}
