@@ -4,14 +4,14 @@ import { prisma } from "../server.js";
 export const signup = async (req, res) => {
   try {
     console.log(req.body);
-    const { name, email, phone } = req.body;
+    const { name, email, password } = req.body;
     // You should hash the password if you store one!
     // Assume password is added to the model if needed.
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        phone,
+        password,
         // password
       },
     });
@@ -25,11 +25,11 @@ export const signup = async (req, res) => {
 // User login: find user and authenticate
 export const login = async (req, res) => {
   try {
-    const { email, phone } = req.body;
+    const { email, password } = req.body;
     // Replace with password check if password exists
     const user = await prisma.user.findFirst({
       where: {
-        OR: [{ email }, { phone }],
+        OR: [{ email }, { password }],
       },
     });
     if (!user) {
