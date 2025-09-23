@@ -38,7 +38,7 @@ function AppWrapper() {
           <Route path="/register" element={<Register />} />
         </Routes>
 
-        <FloatingButton onClick={handleClick} />
+        <FloatingButton />
       </div>
     </>
   );
