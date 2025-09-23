@@ -20,6 +20,7 @@ model complaint {
   imgurl    String
   title     String
   desc      String
+  upvotes Int @default(0)
   lat  String
   lng String
   createdAt DateTime @default(now())

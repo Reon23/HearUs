@@ -33,3 +33,18 @@ export const deregister = async (req, res) => {
     res.status(404).json({ error: "Complaint not found" });
   }
 };
+
+// Upvote complaint by id
+export const upvote = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log("upvote complaint id : ", id);
+    const upvotedComplaint = await prisma.complaint.update({
+      where: { id: Number(id) },
+      data: { upvotes: { increment: 1 } },
+    });
+    res.status(200).json({ message: "upvoted complaint" });
+  } catch (error) {
+    res.status(404).json({ error: "Complaint not found" });
+  }
+};
