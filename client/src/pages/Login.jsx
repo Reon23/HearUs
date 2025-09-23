@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; 
 import "./Login.css";
 
 function Login() {
@@ -7,7 +8,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -15,7 +16,25 @@ function Login() {
       return;
     }
 
-    alert("Login successful (replace with backend call)");
+    try {
+      // Replace URL with your backend login endpoint
+      const response = await axios.post("http://localhost:5000/api/login", {
+        email,
+        password,
+      });
+
+      if (response.data.success) {
+        alert("Login successful!");
+        // Optionally store token in localStorage
+        localStorage.setItem("token", response.data.token);
+        navigate("/dashboard"); // redirect to dashboard
+      } else {
+        alert(response.data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred while logging in");
+    }
   };
 
   return (
@@ -58,4 +77,5 @@ function Login() {
 }
 
 export default Login;
+
 
