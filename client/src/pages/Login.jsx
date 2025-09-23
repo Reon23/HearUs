@@ -1,44 +1,35 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
-  const [aadhaar, setAadhaar] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Aadhaar validation
-    const aadhaarRegex = /^[0-9]{12}$/;
-    if (!aadhaarRegex.test(aadhaar)) {
-      setError("Please enter a valid 12-digit Aadhaar number.");
+    if (!email || !password) {
+      alert("Please enter both email and password.");
       return;
     }
 
-    if (!password) {
-      setError("Please enter your password.");
-      return;
-    }
-
-    setError("");
-    alert("Login successful! (Here you can add Aadhaar verification API call)");
+    alert("Login successful (replace with backend call)");
   };
 
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2 className="login-title">Login</h2>
-        {error && <p className="error-message">{error}</p>}
+        <h2 className="title">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label>Aadhaar Number</label>
+            <label>Email</label>
             <input
-              type="text"
-              value={aadhaar}
-              onChange={(e) => setAadhaar(e.target.value)}
-              placeholder="Enter 12-digit Aadhaar"
-              maxLength="12"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -46,19 +37,25 @@ function Login() {
             <label>Password</label>
             <input
               type="password"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
             />
           </div>
 
-          <button type="submit" className="login-btn">
-            Login
-          </button>
+          <button type="submit" className="btn">Login</button>
         </form>
+
+        <p className="switch-text">
+          Don’t have an account?{" "}
+          <span className="link" onClick={() => navigate("/register")}>
+            Register
+          </span>
+        </p>
       </div>
     </div>
   );
 }
 
 export default Login;
+
