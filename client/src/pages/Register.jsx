@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
-import { ServerContext } from "../context/ServerContext";
+import { ServerContext } from '../context/ServerContext.jsx';
 import { useEffect } from "react";
 
 function Register() {
