@@ -1,7 +1,12 @@
 import React from "react";
 import FloatingButton from "./components/FloatingButton";
-import Navbar from './components/Navbar';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+
+
+import Home from "./pages/Home";
+import FileComplaint from "./pages/FileComplaint";
 
 function App() {
   const handleClick = () => {
@@ -10,22 +15,21 @@ function App() {
   };
 
   return (
+    <Router>
+      <Navbar />
+      <div className="App">
+        <h1 className="text-center mt-10">HearUs Platform</h1>
 
-     <Router>
-     <Navbar />
-  
-      <Routes>
-        {/* The default page at "/" */}
-        
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/complaint" element={<FileComplaint />} />
+          <Route path="/LoginPage" element={<Login/>}/>
+          {/* Add more routes here */}
+        </Routes>
+
+        <FloatingButton onClick={handleClick} />
+      </div>
     </Router>
-
-    <div className="App">
-      <h1 className="text-center mt-10">HearUs Platform</h1>
-      {/* Other routes and content */}
-
-      <FloatingButton onClick={handleClick} />
-    </div>
   );
 }
 
