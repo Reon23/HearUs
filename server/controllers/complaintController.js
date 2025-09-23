@@ -3,7 +3,8 @@ import { prisma } from "../server.js";
 // Register a new complaint
 export const register = async (req, res) => {
   try {
-    const { imgurl, title, desc, category, position } = req.body;
+    const { imgurl, title, desc, category, position, city, state, country } =
+      req.body;
     const complaint = await prisma.complaint.create({
       data: {
         imgurl,
@@ -11,6 +12,9 @@ export const register = async (req, res) => {
         desc,
         category,
         position,
+        city,
+        state,
+        country,
       },
     });
     res.status(201).json(complaint);
@@ -22,7 +26,8 @@ export const register = async (req, res) => {
 // Deregister (delete) a complaint by ID
 export const deregister = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id;
+    console.log(id);
     const deletedComplaint = await prisma.complaint.delete({
       where: { id: Number(id) },
     });
