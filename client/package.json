@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^1.12.2",
+<<<<<<< HEAD
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
@@ -33,8 +34,16 @@
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^0.544.0",
     "next-themes": "^0.4.6",
+=======
+    "azure-maps-control": "^3.6.1",
+    "mapbox-gl": "^3.15.0",
+    "olamaps-web-sdk": "^1.1.4",
+    "axios": "^1.12.2",
+>>>>>>> 48f5d7b2f9fc6793504dcc77ce06092c6e1b797d
     "react": "^19.1.1",
+    "react-azure-maps": "^1.0.3",
     "react-dom": "^19.1.1",
+<<<<<<< HEAD
     "react-router-dom": "^7.9.1",
     "recharts": "^2.15.4",
     "sonner": "^2.0.7",
@@ -42,6 +51,10 @@
     "tw-animate-css": "^1.3.8",
     "vaul": "^1.1.2",
     "zod": "^4.1.11"
+=======
+    "react-map-gl": "^8.0.4",
+    "react-router-dom": "^7.9.1"
+>>>>>>> 48f5d7b2f9fc6793504dcc77ce06092c6e1b797d
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
