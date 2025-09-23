@@ -1,0 +1,54 @@
+/* Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #26312A;
+    /* #2b2a3c; */
+    padding: 15px 20px;
+  }
+  
+  .navbar-list {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-item {
+    margin-right: 20px;
+  }
+  
+  .navbar-item a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 16px;
+  }
+  
+  .navbar-item a:hover {
+    background-color: #575757;
+    border-radius: 4px;
+  }
+  
+  .login-btn {
+    background-color: #e0e0e0; 
+    /* #ffbade; */
+    color: black;
+    border: none;
+     font-weight: bold;
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .login-btn:hover {
+    background-color: #0056b3;
+  }
+/* Example CSS to make sure the navbar is on top */
+.navbar {
+  position: relative;
+  z-index: 1;
+}
+  
