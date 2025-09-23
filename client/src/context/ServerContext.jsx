@@ -33,13 +33,9 @@ export const ServerProvider = ({ children }) => {
     const byteCharacters = atob(base64.split(",")[1] || base64);
     const byteNumbers = new Array(byteCharacters.length);
 
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    return new Blob([byteArray], { type: mime });
-  }
-  const convertBase64 = (file) => {
+    for (let i = 0; i < byteCharacters.length; i++) { byteNumbers[i] = byteCharacters.charCodeAt(i); } const byteArray = new
+      Uint8Array(byteNumbers); return new Blob([byteArray], { type: mime });
+  } const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
@@ -112,18 +108,20 @@ export const ServerProvider = ({ children }) => {
       .catch((err) => console.error(err));
   };
 
+  const upvoteComplaint = (id) => {
+    axios
+      .post(`http://localhost:3000/api/upvote/${id}`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
-    <ServerContext.Provider
-      value={{
-        register,
-        login,
-        uploadImage,
-        uploadComplaint,
-        account,
-        imageUrl,
-        setImageUrl,
-      }}
-    >
+    <ServerContext.Provider value={{
+      register, login, uploadImage, uploadComplaint, upvoteComplaint, account, imageUrl,
+      setImageUrl,
+    }}>
       {children}
     </ServerContext.Provider>
   );
