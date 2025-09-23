@@ -1,3 +1,4 @@
+import FloatingButton from "@/components/FloatingButton";
 import React, { useEffect, useRef } from "react";
 
 const MyMap = () => {
@@ -42,15 +43,10 @@ const MyMap = () => {
   }, []);
 
   return (
-    <div
-      ref={mapRef}
-      style={{
-        width: "100%",
-        height: "100vh",
-        borderRadius: "8px",
-        overflow: "hidden",
-      }}
-    />
+    <>
+      <div ref={mapRef} style={{ width: "100%", height: "100vh", borderRadius: "8px", overflow: "hidden", }} />
+      <FloatingButton />
+    </>
   );
 };
 

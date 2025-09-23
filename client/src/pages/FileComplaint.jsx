@@ -18,7 +18,9 @@ function FileComplaint() {
           throw new Error("Camera not supported on this browser.");
         }
 
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -35,7 +37,7 @@ function FileComplaint() {
     // Cleanup function to stop the camera stream when the component unmounts
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
-        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+        videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
       }
     };
   }, []); // The empty array ensures this effect runs only on mount and unmount
@@ -46,7 +48,7 @@ function FileComplaint() {
       alert("Camera permission is required to capture a photo.");
       return;
     }
-    
+
     // Create a new canvas element to capture the image from the video stream
     const canvas = document.createElement("canvas");
     canvas.width = videoRef.current.videoWidth;
@@ -62,16 +64,18 @@ function FileComplaint() {
         (position) => {
           setGeotag({
             lat: position.coords.latitude,
-            lng: position.coords.longitude
+            lng: position.coords.longitude,
           });
-        }, 
+        },
         (error) => {
           console.error("Geolocation error:", error);
           alert("Geolocation not available or access denied.");
-        }
+          return;
+        },
       );
     } else {
       alert("Geolocation not supported by this browser.");
+      return;
     }
   };
 
@@ -90,7 +94,7 @@ function FileComplaint() {
       geotag,
       upvotes: 0,
       downvotes: 0,
-      comments: []
+      comments: [],
     };
 
     setComplaints([newComplaint, ...complaints]);
@@ -102,26 +106,30 @@ function FileComplaint() {
 
   const vote = (id, type) => {
     setComplaints(
-      complaints.map(c => {
+      complaints.map((c) => {
         if (c.id === id) {
-          return { ...c, [type === "up" ? "upvotes" : "downvotes"]: c[type === "up" ? "upvotes" : "downvotes"] + 1 };
+          return {
+            ...c,
+            [type === "up" ? "upvotes" : "downvotes"]:
+              c[type === "up" ? "upvotes" : "downvotes"] + 1,
+          };
         }
         return c;
-      })
+      }),
     );
   };
 
   const addComment = (id, text) => {
     setComplaints(
-      complaints.map(c => {
+      complaints.map((c) => {
         if (c.id === id) {
           return {
             ...c,
-            comments: [...c.comments, { user: "Anonymous", text }]
+            comments: [...c.comments, { user: "Anonymous", text }],
           };
         }
         return c;
-      })
+      }),
     );
   };
 
@@ -129,16 +137,9 @@ function FileComplaint() {
     <div className="complaint-page">
       <h2>File a Complaint</h2>
       <form onSubmit={handleSubmit} className="complaint-form">
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}
         />
-        <textarea
-          placeholder="Complaint details"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+        <textarea placeholder="Complaint details" value={content} onChange={(e) => setContent(e.target.value)}
         />
 
         <div className="camera-container">
@@ -156,7 +157,11 @@ function FileComplaint() {
         {image && (
           <div className="post-preview">
             <img src={image} alt="Captured" className="captured-img" />
-            {geotag && <p className="geotag">Geotag: {geotag.lat}, {geotag.lng}</p>}
+            {geotag && (
+              <p className="geotag">
+                Geotag: {geotag.lat}, {geotag.lng}
+              </p>
+            )}
           </div>
         )}
 
@@ -167,21 +172,31 @@ function FileComplaint() {
       </form>
 
       <div className="complaints-list">
-        {complaints.map(c => (
+        {complaints.map((c) => (
           <div key={c.id} className="complaint-card">
             <h3>{c.title}</h3>
             <p>{c.content}</p>
             {c.image && <img src={c.image} alt="Complaint" />}
-            {c.geotag && <p>Geotag: {c.geotag.lat}, {c.geotag.lng}</p>}
+            {c.geotag && (
+              <p>
+                Geotag: {c.geotag.lat}, {c.geotag.lng}
+              </p>
+            )}
             <div className="votes">
-              <button onClick={() => vote(c.id, "up")}>Agree ({c.upvotes})</button>
-              <button onClick={() => vote(c.id, "down")}>Disagree ({c.downvotes})</button>
+              <button onClick={() => vote(c.id, "up")}>
+                Agree ({c.upvotes})
+              </button>
+              <button onClick={() => vote(c.id, "down")}>
+                Disagree ({c.downvotes})
+              </button>
             </div>
             <div className="comments">
               {c.comments.map((com, i) => (
-                <p key={i}><b>{com.user}:</b> {com.text}</p>
+                <p key={i}>
+                  <b>{com.user}:</b> {com.text}
+                </p>
               ))}
-              <CommentInput complaintId={c.id} addComment={addComment}/>
+              <CommentInput complaintId={c.id} addComment={addComment} />
             </div>
           </div>
         ))}
@@ -201,11 +216,7 @@ function CommentInput({ complaintId, addComment }) {
   };
   return (
     <div className="comment-input">
-      <input
-        type="text"
-        placeholder="Add opinion"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+      <input type="text" placeholder="Add opinion" value={text} onChange={(e) => setText(e.target.value)}
       />
       <button onClick={handleAdd}>Comment</button>
     </div>

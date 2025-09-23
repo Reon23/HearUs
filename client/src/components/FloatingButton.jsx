@@ -1,12 +1,16 @@
 import React from "react";
-import './FloatingButton.css'
+import "./FloatingButton.css";
+import { useNavigate } from "react-router-dom";
 
-const FloatingButton = ({ onClick }) => {
+const FloatingButton = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/complaints");
+  };
+
   return (
-    <button
-      onClick={onClick}
-      className="Fbtn"
-    >
+    <button onClick={handleClick} className="Fbtn">
       +
     </button>
   );
