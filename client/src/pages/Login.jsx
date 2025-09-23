@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Login.css";
+import { ServerContext } from "../context/ServerContext";
 
 function Login() {
+  const { account, login } = useContext(ServerContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -15,8 +18,12 @@ function Login() {
       return;
     }
 
-    alert("Login successful (replace with backend call)");
+    await login({ email, password });
   };
+
+  useEffect(() => {
+    if (account) navigate("/");
+  }, [account]);
 
   return (
     <div className="login-container">
@@ -43,7 +50,9 @@ function Login() {
             />
           </div>
 
-          <button type="submit" className="btn">Login</button>
+          <button type="submit" className="btn">
+            Login
+          </button>
         </form>
 
         <p className="switch-text">
@@ -58,4 +67,3 @@ function Login() {
 }
 
 export default Login;
-
