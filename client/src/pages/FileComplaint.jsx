@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./FileComplaint.css";
+import { ServerContext } from "@/context/ServerContext";
 
 function FileComplaint() {
   const { state } = useLocation();
+  const { uploadImage, imageUrl, setImageUrl, uploadComplaint } =
+    useContext(ServerContext);
   const capturedImage = state?.image || null;
-
   const [complaints, setComplaints] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [geotag, setGeotag] = useState(null);
+
+  const navigate = useNavigate();
 
   // Fetch geolocation when component mounts
   useEffect(() => {
@@ -23,7 +27,7 @@ function FileComplaint() {
         },
         (err) => {
           console.error("Geolocation error:", err);
-        }
+        },
       );
     }
   }, []);
@@ -34,24 +38,24 @@ function FileComplaint() {
       alert("Please enter a title and content.");
       return;
     }
-
-    const newComplaint = {
-      id: Date.now(),
-      title,
-      content,
-      image: capturedImage,
-      geotag,
-      upvotes: 0,
-      downvotes: 0,
-      comments: [],
-    };
-
-    console.log(newComplaint);
-
-    setComplaints([newComplaint, ...complaints]);
-    setTitle("");
-    setContent("");
+    uploadImage(capturedImage.split(",")[1]);
   };
+
+  useEffect(() => {
+    if (imageUrl) {
+      const details = {
+        imgurl: imageUrl,
+        title: title,
+        desc: content,
+        lat: String(geotag.lat),
+        lng: String(geotag.lng),
+      };
+      console.log(details);
+      uploadComplaint(details);
+      setImageUrl(null);
+      navigate("/");
+    }
+  }, [imageUrl]);
 
   return (
     <div className="complaint-page">
@@ -78,9 +82,7 @@ function FileComplaint() {
 
         {/* Show geotag if available */}
         {geotag ? (
-          <p className="geotag">
-            
-          </p>
+          <p className="geotag"></p>
         ) : (
           <p className="geotag">Fetching location...</p>
         )}
