@@ -11,10 +11,40 @@ import { useState } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 import FileComplaint from "./pages/FileComplaint";
-// import Reports from "@/pages/dashboard/Reports"
-// import Team from "@/pages/dashboard/Team"
 
+// Inner component where hooks can be used
+function AppWrapper() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleClick = () => {
+    if (location.pathname === "/complaint") {
+      navigate("/"); // go home if already on map
+    } else {
+      navigate("/complaint"); // otherwise go to map
+    }
+  };
+
+  return (
+    <>
+     <Navbar/>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/complaint" element={<FileComplaint />} />
+          <Route path="/LoginPage" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+
+        <FloatingButton />
+      </div>
+    </>
+  );
+}
+
+// Outer wrapper to provide Router
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   return (
