@@ -1,36 +1,53 @@
 import React from "react";
 import FloatingButton from "./components/FloatingButton";
 import Navbar from "./components/Navbar";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+
 import Login from "./pages/Login";
-
-
 import Home from "./pages/Home";
 import FileComplaint from "./pages/FileComplaint";
+import Map from "./pages/Map";
 
-function App() {
+// Inner component where hooks can be used
+function AppWrapper() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleClick = () => {
-    alert("Floating button clicked!");
-    // You can navigate to FileComplaint page or open a modal here
+    if (location.pathname === "/complaint") {
+      navigate("/"); // go home if already on map
+    } else {
+      navigate("/complaint"); // otherwise go to map
+    }
   };
 
   return (
-    <Router>
+    <>
       <Navbar />
       <div className="App">
-        <h1 className="text-center mt-10">HearUs Platform</h1>
+        
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/complaint" element={<FileComplaint />} />
-          <Route path="/LoginPage" element={<Login/>}/>
-          {/* Add more routes here */}
+          <Route path="/LoginPage" element={<Login />} />
+          <Route path="/map" element={<Map />} />
         </Routes>
 
         <FloatingButton onClick={handleClick} />
       </div>
+    </>
+  );
+}
+
+// Outer wrapper to provide Router
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
     </Router>
   );
 }
 
 export default App;
+
