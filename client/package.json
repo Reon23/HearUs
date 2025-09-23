@@ -10,8 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "azure-maps-control": "^3.6.1",
+    "mapbox-gl": "^3.15.0",
+    "olamaps-web-sdk": "^1.1.4",
+    "axios": "^1.12.2",
     "react": "^19.1.1",
+    "react-azure-maps": "^1.0.3",
     "react-dom": "^19.1.1",
+    "react-map-gl": "^8.0.4",
     "react-router-dom": "^7.9.1"
   },
   "devDependencies": {
