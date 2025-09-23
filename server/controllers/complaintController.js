@@ -3,20 +3,17 @@ import { prisma } from "../server.js";
 // Register a new complaint
 export const register = async (req, res) => {
   try {
-    const { imgurl, title, desc, category, position, city, state, country } =
-      req.body;
+    const { imgurl, title, desc, lat, lng } = req.body;
     const complaint = await prisma.complaint.create({
       data: {
         imgurl,
         title,
         desc,
-        category,
-        position,
-        city,
-        state,
-        country,
+        lat,
+        lng,
       },
     });
+    console.log(complaint);
     res.status(201).json(complaint);
   } catch (error) {
     res.status(400).json({ error: error.message });
