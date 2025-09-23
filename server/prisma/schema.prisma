@@ -21,3 +21,13 @@ model User {
   phone String @unique
   createdAt DateTime @default(now())
 }
+
+model complaint {
+  id Int @id @default(autoincrement())
+  imgurl String
+  title String
+  desc String
+  category String
+  position String
+  createdAt DateTime @default(now())
+}
