@@ -1,9 +1,9 @@
 import FloatingButton from "@/components/FloatingButton";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import location_good from "../../public/location_green.svg";
-import location_ok from "../../public/location_yellow.svg";
-import location_bad from "../../public/location_red.svg";
+import location_good from "/location_green.svg";
+import location_ok from "/location_yellow.svg";
+import location_bad from "/location_red.svg";
 import { ServerContext } from "@/context/ServerContext";
 
 const MyMap = () => {
@@ -55,7 +55,8 @@ const MyMap = () => {
 
               let location = location_good;
 
-              if (upvotes > 10 && upvotes <= 35) location = location_ok; else if (upvotes > 35) location = location_bad;
+              if (upvotes > 10 && upvotes <= 35) location = location_ok;
+              else if (upvotes > 35) location = location_bad;
               else location = location_good;
 
               if (isNaN(lat) || isNaN(lng)) {
@@ -66,7 +67,7 @@ const MyMap = () => {
               const markerDiv = document.createElement("img");
 
               markerDiv.style.color = "white";
-              markerDiv.src = location;
+              markerDiv.src = new URL(location, window.location.origin).href;
               markerDiv.style.height = "16px";
               markerDiv.style.width = "16px";
 
@@ -118,40 +119,90 @@ const MyMap = () => {
 
   return (
     <>
-      <div ref={mapRef} style={{ width: "100%", height: "100vh", borderRadius: "8px", overflow: "hidden", }} />
+      <div
+        ref={mapRef}
+        style={{
+          width: "100%",
+          height: "100vh",
+          borderRadius: "8px",
+          overflow: "hidden",
+        }}
+      />
       <FloatingButton />
 
       {/* Bottom sliding popup */}
       {popupData && (
-        <div style={{
-          position: "fixed", bottom: 0, left: 0, width: "100%", background: "#fff", padding: "20px",
-          boxShadow: "0 -5px 20px rgba(0,0,0,0.3)", borderTopLeftRadius: "16px", borderTopRightRadius: "16px", transform:
-            popupVisible ? "translateY(0)" : "translateY(100%)", transition: "transform 0.3s ease-in-out", zIndex: 999,
-        }}>
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            background: "#fff",
+            padding: "20px",
+            boxShadow: "0 -5px 20px rgba(0,0,0,0.3)",
+            borderTopLeftRadius: "16px",
+            borderTopRightRadius: "16px",
+            transform: popupVisible ? "translateY(0)" : "translateY(100%)",
+            transition: "transform 0.3s ease-in-out",
+            zIndex: 999,
+          }}
+        >
           {/* Close button at top-right */}
-          <button style={{
-            position: "absolute", top: "12px", right: "12px", background: "#ff4d4f", color: "#fff",
-            border: "none", borderRadius: "50%", width: "32px", height: "32px", fontWeight: "700", cursor: "pointer",
-          }} onClick={closePopup}>
+          <button
+            style={{
+              position: "absolute",
+              top: "12px",
+              right: "12px",
+              background: "#ff4d4f",
+              color: "#fff",
+              border: "none",
+              borderRadius: "50%",
+              width: "32px",
+              height: "32px",
+              fontWeight: "700",
+              cursor: "pointer",
+            }}
+            onClick={closePopup}
+          >
             ×
           </button>
 
           <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-            <img src={popupData.image} alt={popupData.label} style={{
-              width: "150px", height: "100px", objectFit: "cover"
-              , borderRadius: "12px", flexShrink: 0,
-            }} />
+            <img
+              src={popupData.image}
+              alt={popupData.label}
+              style={{
+                width: "150px",
+                height: "100px",
+                objectFit: "cover",
+                borderRadius: "12px",
+                flexShrink: 0,
+              }}
+            />
             <div style={{ flex: 1 }}>
-              <h2 style={{ margin: 0, fontSize: "1.3rem", fontWeight: "700", color: "#333", }}>
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: "1.3rem",
+                  fontWeight: "700",
+                  color: "#333",
+                }}
+              >
                 {popupData.label}
               </h2>
               <p style={{ marginTop: "6px", color: "#555", fontSize: "1rem" }}>
                 {popupData.description}
               </p>
-              <button style={{
-                margin: "1rem", background: "cyan", padding: ".5rem", borderRadius: "15px",
-                fontWeight: "bold",
-              }} onClick={() => handleUpvote({ id: popupData.id })}
+              <button
+                style={{
+                  margin: "1rem",
+                  background: "cyan",
+                  padding: ".5rem",
+                  borderRadius: "15px",
+                  fontWeight: "bold",
+                }}
+                onClick={() => handleUpvote({ id: popupData.id })}
               >
                 Upvote {popupData.upvotes ? popupData.upvotes : ""}
               </button>

@@ -1,6 +1,6 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import exit from '../../public/exit.svg'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import exit from "/exit.svg";
 const FloatingExit = () => {
   const navigate = useNavigate();
 
@@ -13,6 +13,6 @@ const FloatingExit = () => {
       <img height={16} width={16} src={exit} alt="" />
     </button>
   );
-}
+};
 
-export default FloatingExit
+export default FloatingExit;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import locationIcon from "../../../public/location_green.svg"; // import the svg as an asset
+import locationIcon from "../../assets/location_green.svg"; // import the svg as an asset
 import FloatingButton from "@/components/FloatingButton";
 import FloatingExit from "../FloatingExit";
 
