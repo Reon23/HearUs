@@ -1,7 +1,9 @@
 import FloatingButton from "@/components/FloatingButton";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import location from "../../public/location.svg";
+import location_good from "../../public/location_green.svg";
+import location_ok from "../../public/location_yellow.svg";
+import location_bad from "../../public/location_red.svg";
 import { ServerContext } from "@/context/ServerContext";
 
 const MyMap = () => {
@@ -47,8 +49,14 @@ const MyMap = () => {
             console.log(complaintsArray);
 
             complaintsArray.forEach((c) => {
+              const upvotes = c.upvotes;
               const lat = parseFloat(c.lat?.replace(",", "."));
               const lng = parseFloat(c.lng?.replace(",", "."));
+
+              let location = location_good;
+
+              if (upvotes > 10 && upvotes <= 35) location = location_ok; else if (upvotes > 35) location = location_bad;
+              else location = location_good;
 
               if (isNaN(lat) || isNaN(lng)) {
                 console.warn("Skipping complaint due to invalid lat/lng:", c);
@@ -124,15 +132,14 @@ const MyMap = () => {
           <button style={{
             position: "absolute", top: "12px", right: "12px", background: "#ff4d4f", color: "#fff",
             border: "none", borderRadius: "50%", width: "32px", height: "32px", fontWeight: "700", cursor: "pointer",
-          }}
-            onClick={closePopup}>
+          }} onClick={closePopup}>
             ×
           </button>
 
           <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
             <img src={popupData.image} alt={popupData.label} style={{
-              width: "150px", height: "100px", objectFit: "cover",
-              borderRadius: "12px", flexShrink: 0,
+              width: "150px", height: "100px", objectFit: "cover"
+              , borderRadius: "12px", flexShrink: 0,
             }} />
             <div style={{ flex: 1 }}>
               <h2 style={{ margin: 0, fontSize: "1.3rem", fontWeight: "700", color: "#333", }}>
