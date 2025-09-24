@@ -6,14 +6,18 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import complaintRoutes from "./routes/complaintRoutes.js";
 import cloudinaryRoutes from "./routes/cloudinaryRoutes.js";
-import MapRoutes from "./routes/MapRoute.js"
+import MapRoutes from "./routes/MapRoute.js";
 dotenv.config();
 
 const app = express();
 export const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://hear-us-sepia.vercel.app/"], // add your frontend URL
+  }),
+);
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
@@ -21,7 +25,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use("/api", authRoutes);
 app.use("/api", complaintRoutes);
 app.use("/api", cloudinaryRoutes);
-app.use('/map',MapRoutes)
+app.use("/map", MapRoutes);
 
 app.get("/health", async (req, res) => {
   try {
