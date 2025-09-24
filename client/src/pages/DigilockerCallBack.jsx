@@ -19,11 +19,11 @@ export default function DigilockerCallback() {
     // Fetch userinfo from backend
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/auth/digilocker/userinfo", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // const res = await axios.get("http://localhost:5000/auth/digilocker/userinfo", {
+        // headers: {
+        // Authorization: `Bearer ${token}`,
+        // },
+        // });
 
         const { user } = res.data;
         // Here you would: create or login user in your own backend, store session, etc.
