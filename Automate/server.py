@@ -4,6 +4,7 @@ import requests
 from io import BytesIO
 from flask import Flask, jsonify
 from flask_pydantic import validate
+from flask_cors import CORS
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 from PIL import Image
@@ -15,14 +16,20 @@ HF_API_KEY = os.getenv("HF_API_KEY")
 HF_MODEL = "Salesforce/blip-image-captioning-base"  # image-to-text model
 
 app = Flask(__name__)
+CORS(app)
+
 
 # -------------------------------
 # Input Schema
 # -------------------------------
 class ImageRequest(BaseModel):
     image_base64: str | None = Field(None, description="Base64 encoded image string")
-    image_url: str | None = Field(None, description="Direct image URL (e.g. Cloudinary link)")
-    detection: str = Field(..., description="Type of detection required (caption, ocr, objects)")
+    image_url: str | None = Field(
+        None, description="Direct image URL (e.g. Cloudinary link)"
+    )
+    detection: str = Field(
+        ..., description="Type of detection required (caption, ocr, objects)"
+    )
     style: str = Field("informal", description="Output style (strictly 'informal')")
 
     class Config:
@@ -69,9 +76,8 @@ def query_huggingface(image: Image.Image):
 @validate(body=ImageRequest)
 def analyze_image(body: ImageRequest):
     try:
-        image = None
-
-        if body.image_url:  # Prefer URL if available
+        # Load image
+        if body.image_url:
             resp = requests.get(body.image_url)
             resp.raise_for_status()
             image = Image.open(BytesIO(resp.content))
@@ -81,16 +87,18 @@ def analyze_image(body: ImageRequest):
         else:
             return jsonify({"error": "Provide either image_url or image_base64"}), 400
 
-        # Get caption from Hugging Face
+        # Generate caption
         caption = query_huggingface(image)
 
-        # Build structured output
-        response = ImageResponse(
-            title=" ".join(caption.split()[:5]),  # short title
-            description=f"{caption}. This is an informal description as requested."
+        return (
+            jsonify(
+                {
+                    "title": " ".join(caption.split()[:5]),
+                    "description": f"{caption}. This is an informal description as requested.",
+                }
+            ),
+            200,
         )
-
-        return jsonify(response.dict()), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

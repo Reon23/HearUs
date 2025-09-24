@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +12,9 @@ const CameraPage = () => {
   // Start camera
   const startCamera = async () => {
     try {
-      const newStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const newStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
       if (videoRef.current) {
         videoRef.current.srcObject = newStream;
       }
@@ -50,7 +53,20 @@ const CameraPage = () => {
   // Submit photo → navigate with image
   const handleSubmit = () => {
     if (capturedImage) {
-      navigate("/complaints", { state: { image: capturedImage } });
+      const base64Data = capturedImage.split(",")[1]; // remove data:image/png;base64,
+      axios
+        .post("http://127.0.0.1:5000/analyze-image", {
+          image_base64: base64Data,
+          detection: "caption", // required field
+          style: "informal", // optional
+        })
+        .then((res) => {
+          console.log(res.data);
+          navigate("/complaints", {
+            state: { image: capturedImage, desc: res.data },
+          });
+        })
+        .catch((err) => console.error(err));
     }
   };
 

@@ -5,6 +5,7 @@ import location_good from "/location_green.svg";
 import location_ok from "/location_yellow.svg";
 import location_bad from "/location_red.svg";
 import { ServerContext } from "@/context/ServerContext";
+import MapSearch from "@/components/MapSearch";
 
 const MyMap = () => {
   const mapRef = useRef(null);
@@ -40,6 +41,7 @@ const MyMap = () => {
 
         mapInstance.current.events.add("ready", async () => {
           console.log("Azure Map loaded!");
+          setMap(mapInstance.current);
 
           try {
             const response = await axios.get(
@@ -116,9 +118,10 @@ const MyMap = () => {
       upvotes: (prevData.upvotes || 0) + 1,
     }));
   };
-
+  const [map, setMap] = useState(null);
   return (
     <>
+      <MapSearch map={map} />
       <div
         ref={mapRef}
         style={{

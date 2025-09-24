@@ -8,9 +8,10 @@ function FileComplaint() {
   const { uploadImage, imageUrl, setImageUrl, uploadComplaint } =
     useContext(ServerContext);
   const capturedImage = state?.image || null;
+  const generatedDesc = state?.desc || null;
   const [complaints, setComplaints] = useState([]);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(generatedDesc?.title || "");
+  const [content, setContent] = useState(generatedDesc?.description || "");
   const [geotag, setGeotag] = useState(null);
 
   const navigate = useNavigate();
