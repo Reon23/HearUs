@@ -43,7 +43,7 @@ const MyMap = () => {
 
           try {
             const response = await axios.get(
-              "http://localhost:3000/map/mapdata",
+              "https://hearus.onrender.com/map/mapdata",
             );
             const complaintsArray = response.data.MapData;
             console.log(complaintsArray);
@@ -73,7 +73,7 @@ const MyMap = () => {
 
               markerDiv.onclick = async () => {
                 const response = await axios.get(
-                  `http://localhost:3000/map/mapdata/${c.id}`,
+                  `https://hearus.onrender.com/map/mapdata/${c.id}`,
                 );
                 const latestComplaint = response.data.MapData;
                 setPopupData({

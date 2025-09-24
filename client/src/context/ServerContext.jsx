@@ -33,9 +33,13 @@ export const ServerProvider = ({ children }) => {
     const byteCharacters = atob(base64.split(",")[1] || base64);
     const byteNumbers = new Array(byteCharacters.length);
 
-    for (let i = 0; i < byteCharacters.length; i++) { byteNumbers[i] = byteCharacters.charCodeAt(i); } const byteArray = new
-      Uint8Array(byteNumbers); return new Blob([byteArray], { type: mime });
-  } const convertBase64 = (file) => {
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mime });
+  }
+  const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
@@ -52,7 +56,7 @@ export const ServerProvider = ({ children }) => {
 
   function uploadSingleImage(base64) {
     axios
-      .post("http://localhost:3000/api/uploadImage", { image: base64 })
+      .post("https://hearus.onrender.com/api/uploadImage", { image: base64 })
       .then((res) => {
         setImageUrl(res.data);
       })
@@ -79,7 +83,7 @@ export const ServerProvider = ({ children }) => {
   const register = (user) => {
     console.log(user);
     axios
-      .post("http://localhost:3000/api/signup", user)
+      .post("https://hearus.onrender.com/api/signup", user)
       .then((res) => {
         console.log(res.data);
         setAccount(res.data);
@@ -90,7 +94,7 @@ export const ServerProvider = ({ children }) => {
   const login = (user) => {
     console.log(user);
     axios
-      .post("http://localhost:3000/api/login", user)
+      .post("https://hearus.onrender.com/api/login", user)
       .then((res) => {
         console.log(res.data);
         setAccount(res.data);
@@ -101,7 +105,7 @@ export const ServerProvider = ({ children }) => {
   const uploadComplaint = (details) => {
     console.log(details);
     axios
-      .post("http://localhost:3000/api/register", details)
+      .post("https://hearus.onrender.com/api/register", details)
       .then((res) => {
         console.log(res.data);
       })
@@ -110,7 +114,7 @@ export const ServerProvider = ({ children }) => {
 
   const upvoteComplaint = (id) => {
     axios
-      .post(`http://localhost:3000/api/upvote/${id}`)
+      .post(`https://hearus.onrender.com/api/upvote/${id}`)
       .then((res) => {
         console.log(res.data);
       })
@@ -118,10 +122,18 @@ export const ServerProvider = ({ children }) => {
   };
 
   return (
-    <ServerContext.Provider value={{
-      register, login, uploadImage, uploadComplaint, upvoteComplaint, account, imageUrl,
-      setImageUrl,
-    }}>
+    <ServerContext.Provider
+      value={{
+        register,
+        login,
+        uploadImage,
+        uploadComplaint,
+        upvoteComplaint,
+        account,
+        imageUrl,
+        setImageUrl,
+      }}
+    >
       {children}
     </ServerContext.Provider>
   );
