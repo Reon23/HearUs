@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: ["https://hear-us-sepia.vercel.app/"], // add your frontend URL
+    origin: "*",
   }),
 );
 app.use(express.json({ limit: "50mb" }));
